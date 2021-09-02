@@ -35,12 +35,12 @@ pipelines:
       - name: helm_deploy
         type: HelmDeploy
         configuration:
-          runtime:      
-            type: image
-            image:
-              custom:
-                name: releases-docker.jfrog.io/jfrog/pipelines-u18go
-                tag: "1.15.2"
+          # runtime:      
+          #   type: image
+          #   image:
+          #     custom:
+          #       name: releases-docker.jfrog.io/jfrog/pipelines-u18go
+          #       tag: "1.15.2"
           # nodePool: MyDynamicGCPNode
           helmVersion: 3
           releaseName: {{ .Values.myHelmChart.releaseName }} 
