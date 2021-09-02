@@ -5,6 +5,7 @@ myRepo:
 
 myPipeline:
   name: acme_co_redis_server_deploy_01
+  deleteName: acme_co_redis_server_delete_01
 
 myHelmChart:
   chartName: redis

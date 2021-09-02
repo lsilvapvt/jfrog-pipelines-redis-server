@@ -35,7 +35,7 @@ pipelines:
       - name: helm_deploy
         type: HelmDeploy
         configuration:
-          nodePool: Ubuntu
+          nodePool: MyDynamicGCPNode
           helmVersion: 3
           releaseName: {{ .Values.myHelmChart.releaseName }} 
           dryRun: true
@@ -48,3 +48,30 @@ pipelines:
             - name: my_helm_chart
           inputSteps:
             - name: pre_helm_deploy
+
+pipelines:
+  steps:
+    - name: pre_helm_delete
+      type: Bash
+      configuration:
+        inputResources:
+          - name: git_repository_resource
+            trigger: false
+      execution:
+        onExecute:
+          - echo $res_git_repository_resource_resourcePath
+
+    - name: {{ .Values.myPipeline.deleteName }}
+        - name: helm_delete
+          type: Bash
+          configuration:
+            inputSteps:
+              - name: pre_helm_delete
+            inputResources:
+              - name: git_repository_resource
+          execution:
+            onExecute:
+              - echo "Hello JFrog Pipelines!"
+              - which helm 
+              - which helm3
+
