@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: my_git_repository
+  - name: git_repository_resource
     type: GitRepo
     configuration:
       gitProvider: {{ .Values.myRepo.gitProvider }}
@@ -25,12 +25,12 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: my_git_repository
+            - name: git_repository_resource
               trigger: false
         execution:
           onExecute:
             - echo "Hello JFrog Pipelines!"
-            - echo $res_my_git_repository_resourcePath
+            - echo $res_git_repository_resource_resourcePath
 
       - name: helm_deploy
         type: HelmDeploy
