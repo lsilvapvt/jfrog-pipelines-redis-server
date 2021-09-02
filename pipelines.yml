@@ -27,10 +27,15 @@ pipelines:
           inputResources:
             - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
               trigger: false
+          integrations:
+            - name: {{ .Values.myKubernetes.integrationName }}
         execution:
           onExecute:
-            - echo "Hello JFrog Pipelines!"
             - echo $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath
+            - env
+            - ls -la
+            - kubectl config view
+            - kubectl apply -f $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath/deployment/namespace.yml
 
       - name: helm_deploy
         type: HelmDeploy
