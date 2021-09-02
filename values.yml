@@ -1,0 +1,19 @@
+myRepo:
+  gitProvider: acme_co_github
+  path: lsilvapvt/jfrog-pipelines-redis-server
+  branch: main 
+
+myPipeline:
+  name: acme_co_redis_server_deploy_01
+
+myHelmChart:
+  chartName: redis
+  chartVersion: "15.3.0"  
+  releaseName: redis-server-01
+  namespace: redis-server-01 
+  flags: " --set master.service.type='LoadBalancer' "
+  artifactoryProvider: acme_co_artifactory
+  repository: acme-helm-bitnami-remote
+
+myKubernetes:
+  integrationName: acme_co_aks
