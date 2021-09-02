@@ -11,8 +11,8 @@ myPipeline:
 myHelmChart:
   chartName: redis
   chartVersion: "15.3.0"  
-  releaseName: redis-server-01
-  namespace: redis-server-01 
+  releaseName: redis-server-test
+  namespace: redis-server
   flags: " --set master.service.type='LoadBalancer' "
   artifactoryProvider: acme_co_artifactory
   repository: acme-helm-bitnami-remote

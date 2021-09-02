@@ -68,9 +68,12 @@ pipelines:
           inputResources:
             - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
               trigger: false
+          integrations:
+            - name: {{ .Values.myKubernetes.integrationName }}
         execution:
           onExecute:
-            - echo $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath
+            - helm3 ls -n {{ .Values.myHelmChart.namespace }}
+            - kubectl get ns
 
       - name: helm_delete
         type: Bash
@@ -79,9 +82,12 @@ pipelines:
             - name: pre_helm_delete
           inputResources:
             - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
+          integrations:
+            - name: {{ .Values.myKubernetes.integrationName }}
         execution:
           onExecute:
-            - echo "Hello JFrog Pipelines!"
-            - which helm 
-            - which helm3
+            - helm3 uninstall {{ .Values.myHelmChart.releaseName }} -n {{ .Values.myHelmChart.namespace }}
+            - sleep 10
+            - kubectl delete -f $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath/deployment/namespace.yml
+            - kubectl get ns 
 
