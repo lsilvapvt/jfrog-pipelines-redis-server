@@ -78,6 +78,10 @@ pipelines:
       - name: helm_delete
         type: Bash
         configuration:
+          requiresApproval:
+            timeoutSeconds: 43200
+            approvers:
+              - lucianos
           inputSteps:
             - name: pre_helm_delete
           inputResources:
