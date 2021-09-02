@@ -4,8 +4,8 @@ myRepo:
   branch: main 
 
 myPipeline:
-  name: acme_co_redis_server_deploy_01
-  deleteName: acme_co_redis_server_delete_01
+  name: acme_co_redis_k8s_deploy
+  deleteName: acme_co_redis_k8s_delete
   resourcesPrefix: acme_01_
 
 myHelmChart:
