@@ -86,6 +86,7 @@ pipelines:
             - name: pre_helm_delete
           inputResources:
             - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
+              trigger: false
           integrations:
             - name: {{ .Values.myKubernetes.integrationName }}
         execution:
