@@ -2,7 +2,7 @@ template: true
 valuesFilePath: ./values.yml
 
 resources:
-  - name: git_repository_resource
+  - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
     type: GitRepo
     configuration:
       gitProvider: {{ .Values.myRepo.gitProvider }}
@@ -10,7 +10,7 @@ resources:
       branches:
         include: {{ .Values.myRepo.branch }}
 
-  - name: my_helm_chart
+  - name: {{ .Values.myPipeline.resourcesPrefix }}helm_chart
     type: HelmChart
     configuration:
       sourceArtifactory: {{ .Values.myHelmChart.artifactoryProvider }}
@@ -25,12 +25,12 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: git_repository_resource
+            - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
               trigger: false
         execution:
           onExecute:
             - echo "Hello JFrog Pipelines!"
-            - echo $res_git_repository_resource_resourcePath
+            - echo $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath
 
       - name: helm_deploy
         type: HelmDeploy
@@ -51,7 +51,7 @@ pipelines:
           integrations:
             - name: {{ .Values.myKubernetes.integrationName }}
           inputResources:
-            - name: my_helm_chart
+            - name: {{ .Values.myPipeline.resourcesPrefix }}helm_chart
           inputSteps:
             - name: pre_helm_deploy
 
@@ -61,11 +61,11 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            - name: git_repository_resource
+            - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
               trigger: false
         execution:
           onExecute:
-            - echo $res_git_repository_resource_resourcePath
+            - echo $res_{{ .Values.myPipeline.resourcesPrefix }}git_resource_resourcePath
 
       - name: helm_delete
         type: Bash
@@ -73,7 +73,7 @@ pipelines:
           inputSteps:
             - name: pre_helm_delete
           inputResources:
-            - name: git_repository_resource
+            - name: {{ .Values.myPipeline.resourcesPrefix }}git_resource
         execution:
           onExecute:
             - echo "Hello JFrog Pipelines!"
